@@ -1,0 +1,54 @@
+{% load static%}
+<html>
+    <head>
+        <title> marks management page </title>
+        <style>
+            table {
+                width: 60%;
+                border-collapse: collapse;
+            }
+            th, td {
+                border: 1px solid black;
+                padding: 8px;
+                text-align: left;
+            }
+            th {
+                background-color: #f2f2f2;
+            }
+        </style>
+    </head>
+    <body>
+        <form method="POST" action="/marks/">
+            {% csrf_token %}
+            <select name="course">
+                <option>AI&DS-3rd year</option>
+                <option>AI&Ml-3rd year</option>
+            </select>
+            <p>Enter the subject</p>
+            <input type="text" name="sub">
+            <button type="submit">Submit</button>
+        </form>
+        
+        <form method="POST" action="/marks/">
+            {% csrf_token %}
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>{{ sub }}</th>
+                </tr>
+                {% for student in students %}
+                <tr>
+                    <td>{{ student.std_id }}</td>
+                    <td>{{ student.name }}</td>
+                    <td><input type="number" name="marks" value="{{ student.subject_marks|json_script }}"></td>
+                </tr>
+                {% endfor %}
+            </table>
+            <input type="hidden" name="sub" value="{{ sub }}">
+            <button type="submit" name="marks_submit">Submit Marks</button>
+        </form>
+    </body>
+    
+</html>
+
